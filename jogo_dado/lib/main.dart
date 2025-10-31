@@ -216,18 +216,56 @@ class _EstadoTelaJogoDeDados extends State<TelaJogodeDados>{
                 return Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Image.network(
-                    imagensDados[valor]!,
+                    imagensDados[valor]!, // Pega a url do mapa usando o 'valor' do dado
                     width: 50,
-                    height: 50, // Pega a url do mapa usando o 'valor' do dado
-                    errorBuilder: (context, erro, StackTrace) =>
-                    const Icon(Icons.error, size: 40),
+                    height: 50,
+                    errorBuilder: (context, erro, stackTrace) =>
+                    const Icon(
+                      Icons.error,
+                      size: 40,
+                    ),
                   ),
                 );
-              }),
+              }).toList(), // CONVERTE O RESULTADO DE VOLTA PARA UMA LISTA DE WIDGETS //
           )
         ],
       ),
     );
   }
-
+  
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Jogo de Dados'),
+      ),
+      body: Column(
+        children: [
+          Row(
+            children: [
+              _construirColunaJogador(widget.nomeJogador1, _lancamentosJogador1),
+              _construirColunaJogador(widget.nomeJogador2, _lancamentosJogador2),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Text(
+            _mensagemResultado,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const Spacer(), // EMPURRA O BOTAO PARA A PARTE DE BAIXO DA TELA //
+          ElevatedButton(
+            onPressed: _lancarDados,
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(double.infinity, 50)
+            ),
+            child: const Text('Jogar Dados'),
+          ),
+        ],        
+      )
+    );
+  }
 }
